@@ -1589,6 +1589,36 @@ body.at-footer .dock-ai, .dock.is-quiet .dock-ai { opacity: 0; visibility: hidde
 .masthead .tool-label { opacity: .8; }
 .masthead .share-ic { border-color: transparent; }
 .masthead .share-ic:hover, .masthead .share-ic:focus-visible { border-color: var(--fg-1); color: var(--plum-red); }
+/* ── WIDER READING COLUMN ── the guide uses the same 1180px wrap as
+   /india-benefits-stack, so prose and the calculator run wider and shorter. */
+.page-body { max-width: 1180px; }
+.sec p, .sec > .section-intro, .answer-p, .deep-acc-body p, .deep-acc-body ul, .deep-acc-body ol:not(.steps), .co-sub, .co-quad { max-width: 860px; }
+.sec > h2 { max-width: 960px; }
+.overview { padding-top: 24px; }
+/* Contents bar: larger labels, aligned with the reading column. */
+.toc-bar { padding-left: max(clamp(20px,5vw,64px), calc((100% - 1180px) / 2 + clamp(20px,5vw,64px) - 14px)); padding-right: clamp(20px,5vw,64px); }
+.toc-bar a { font-size: 14px; letter-spacing: .01em; padding: 15px 14px; }
+
+/* ── HOVER FIXES ── */
+/* The global a:hover colour (deep red) outranked .nav-cta's text colour, so
+   the red buttons went red-on-red. */
+.nav-cta:hover, .nav-cta:focus-visible { color: var(--fg-on-red); }
+/* The selected chip kept cream text over the blush hover fill. */
+.chip[aria-pressed="true"]:hover { background: var(--plum-red-deep); color: var(--fg-on-red); }
+/* plumhq.com navbar buttons: Webflow's IX2 slides the fill circle up on hover.
+   IX2 isn't loaded, so only the text colour changed (dark on the dark bar).
+   Slide the circle in with CSS instead; !important beats IX2's inline
+   resting transform. */
+.button-4 .button-hover-circle { transition: transform .45s cubic-bezier(.77,0,.175,1); }
+.button-4:hover .button-hover-circle, .button-4:focus-visible .button-hover-circle { transform: translate(-50%, -34%) scale(1) !important; }
+/* Calculator: "What would move you up" runs as a full-width row under the
+   inputs and result, so the result column (and the calculator) is shorter. */
+.calc-next{grid-column:1/-1;background:var(--cream-deep);padding:18px 22px 22px;border-radius:0 0 var(--r-card) var(--r-card);display:grid;grid-template-columns:1fr auto;align-items:end;gap:12px 28px}
+.calc-next .co-block{border-top:0;padding-top:0;margin:0}
+.calc-next .co-cta{margin:0}
+@media (min-width:861px){.calc-next .co-moves{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0 24px}.calc-next .co-moves li{border-bottom:0;border-top:0.5px solid var(--line-lav-2)}.calc-next .co-moves li.none{grid-column:1/-1}
+  .calc-in{border-radius:var(--r-card) 0 0 0}.calc-out{border-radius:0 var(--r-card) 0 0;position:static;align-self:stretch}.quad{aspect-ratio:2/1}}
+@media (max-width:860px){.calc-next{grid-template-columns:1fr}.calc-out{border-radius:0}}
 </style>
 <link rel="stylesheet" href={`${base}/plum-chrome/chrome.css`}>
 </head>
@@ -1740,9 +1770,8 @@ body.at-footer .dock-ai, .dock.is-quiet .dock-ai { opacity: 0; visibility: hidde
 <span class="q-ax q-axx">Healthcare breadth →</span><span class="q-ax q-axy">Insurance depth →</span>
 </div>
 <p class="co-quad" id="c-quad"></p>
-<div class="co-block"><div class="co-k">What would move you up</div><ol class="co-moves" id="c-moves"></ol></div>
-<a class="nav-cta co-cta" href="https://www.plumhq.com/get-quote">get a full benchmark of your plan</a>
 </div>
+<div class="calc-next"><div class="co-block"><div class="co-k">What would move you up</div><ol class="co-moves" id="c-moves"></ol></div><a class="nav-cta co-cta" href="https://www.plumhq.com/get-quote">get a full benchmark of your plan</a></div>
 </div><div class="callout callout-blue"><span aria-hidden="true" class="callout-icon">ℹ</span><div><strong>About this calculator:</strong> Scores are estimated from the policy features of 3,500+ companies with group health cover through Plum in FY26, using Plum's employee benefits matrix: insurance depth (sum insured, family cover, maternity, co-pay, life and accident cover) and healthcare breadth (check-ups, telehealth, mental wellness, OPD, dental, vision). Percentiles are rounded to the nearest 5 and are indicative, not a quote or a formal assessment.</div></div></section><div class="rule-section" aria-hidden="true"><span class="rule-arr-l"></span><span class="rule-line"></span><span class="rule-arr-r"></span></div><div class="chapter-head" id="chapter-2"><span class="ch-num" aria-hidden="true">02</span><div><div class="section-label">Chapter 2 of 5</div><p class="ch-title">What companies spend</p><p class="ch-desc">Real ranges from Plum customer data, by company type, and what the top quarter buys.</p><ul class="ch-links"><li><a href="#what-companies-spend">What companies spend</a></li><li><a href="#how-your-peers-compare">Startups, MNCs and size</a></li><li><a href="#what-the-top-quarter-does-differently">What top spenders cover</a></li></ul></div></div><section id="what-companies-spend" class="sec" aria-labelledby="what-companies-spend-h"><div class="section-label">Part 2 · What companies spend</div><h2 id="what-companies-spend-h">What do Indian companies actually spend on group health insurance per employee?</h2><p class="section-intro"><strong>Half of companies spend between roughly ₹6,000 and ₹24,000 per employee per year on group health insurance.</strong> A quarter spend less than ₹6,000 and a quarter spend more than ₹24,000.</p><figure class="dist-card">
 <figcaption>How companies spread across spend ranges, premium per employee per year</figcaption>
 <div class="dist"><div aria-label="All companies: 18% spend Under ₹5,000, 30% spend ₹5,000–10,000, 22% spend ₹10,000–20,000, 18% spend ₹20,000–40,000, 12% spend ₹40,000+" class="dist-bar" role="img"><div class="seg s0" style="flex:18 1 0" title="Under ₹5,000: 18% of companies"><span>18%</span></div><div class="seg s1" style="flex:30 1 0" title="₹5,000–10,000: 30% of companies"><span>30%</span></div><div class="seg s2" style="flex:22 1 0" title="₹10,000–20,000: 22% of companies"><span>22%</span></div><div class="seg s3" style="flex:18 1 0" title="₹20,000–40,000: 18% of companies"><span>18%</span></div><div class="seg s4" style="flex:12 1 0" title="₹40,000+: 12% of companies"><span>12%</span></div></div></div>
