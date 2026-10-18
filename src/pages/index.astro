@@ -1610,7 +1610,8 @@ body.at-footer .dock-ai, .dock.is-quiet .dock-ai { opacity: 0; visibility: hidde
 .overview { padding-top: 24px; }
 /* Contents bar: larger labels, aligned with the reading column. */
 .toc-bar { padding-left: max(clamp(20px,5vw,64px), calc((100% - 1180px) / 2 + clamp(20px,5vw,64px) - 14px)); padding-right: clamp(20px,5vw,64px); }
-.toc-bar a { font-size: 14px; letter-spacing: .01em; padding: 15px 14px; }
+.toc-bar a { font-size: 16px; letter-spacing: 0; padding: 16px 14px; }
+@media (max-width:640px){ .toc-bar a { font-size: 15px; padding: 14px 12px; } }
 
 /* ── HOVER FIXES ── */
 /* The global a:hover colour (deep red) outranked .nav-cta's text colour, so
@@ -1632,9 +1633,6 @@ body.at-footer .dock-ai, .dock.is-quiet .dock-ai { opacity: 0; visibility: hidde
 @media (min-width:861px){.calc-next .co-moves{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0 24px}.calc-next .co-moves li{border-bottom:0;border-top:0.5px solid var(--line-lav-2)}.calc-next .co-moves li.none{grid-column:1/-1}
   .calc-in{border-radius:var(--r-card) 0 0 0}.calc-out{border-radius:0 var(--r-card) 0 0;position:static;align-self:stretch}.quad{aspect-ratio:2/1}}
 @media (max-width:860px){.calc-next{grid-template-columns:1fr}.calc-out{border-radius:0}}
-/* Navbar: menu labels and buttons one step larger than the plumhq.com default. */
-.navbar .nav-item-link { font-size: 15px; }
-.navbar .button-4 { font-size: 15px; }
 </style>
 <link rel="stylesheet" href={`${base}/plum-chrome/chrome.css`}>
 </head>
