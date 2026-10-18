@@ -1,0 +1,9 @@
+{
+  "redirects": [
+    { "source": "/", "destination": "/group-health-insurance-cost", "permanent": false }
+  ],
+  "rewrites": [
+    { "source": "/group-health-insurance-cost", "destination": "/index.html" },
+    { "source": "/group-health-insurance-cost/:path*", "destination": "/:path*" }
+  ]
+}
