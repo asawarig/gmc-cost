@@ -1582,7 +1582,7 @@ body.at-footer .dock-ai, .dock.is-quiet .dock-ai { opacity: 0; visibility: hidde
 /* The section stepper moves left so the dock holds the right corner;
    on phones the dock rides above the stepper's bottom bar. */
 @media (min-width:641px){ .deck-ctl{ right:auto; left:clamp(16px,3vw,36px); } }
-@media (max-width:640px){ .dock{ transition:opacity .22s ease, visibility .22s, bottom .2s ease-out; } body:has(.deck-ctl.on) .dock{ bottom:calc(max(12px, env(safe-area-inset-bottom)) + 64px); } }
+
 
 /* Former "In full" accordions, now always-open body copy under the section */
 .detail-body { padding: 0; border-top: none; margin-top: 28px; }
@@ -2186,11 +2186,6 @@ body:has(.navbar.nav--scrolled):not(.at-footer) .sales-rail.is-fade { opacity: .
 
 <div class="dock" data-dock><div class="dock-row"><a class="dock-btn dock-talk" href="https://www.plumhq.com/get-quote" data-cta="dock" aria-label="Get a quote for your team"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 5h16v11H8l-4 4z"></path></svg><span class="dock-talk-long">Get a quote for your team</span><span class="dock-talk-short" aria-hidden="true">Get a quote</span></a><button type="button" class="dock-btn dock-top" data-dock-top aria-label="Start reading"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 20V5M5.5 11.5 12 5l6.5 6.5"></path></svg></button></div></div>
 
-<div class="deck-ctl" role="navigation" aria-label="Section controls">
-  <button type="button" data-dir="-1" aria-label="Previous section"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M18 15l-6-6-6 6"/></svg></button>
-  <span class="ctl-text" aria-live="polite"><span class="ctl-count">1 / 1</span><span class="ctl-name"></span></span>
-  <button type="button" data-dir="1" aria-label="Next section"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 9l6 6 6-6"/></svg></button>
-</div>
 <script is:inline>
 
 document.querySelectorAll('.chip').forEach(function(b){b.addEventListener('click',function(){
@@ -2199,29 +2194,15 @@ document.querySelectorAll('.chip').forEach(function(b){b.addEventListener('click
 })});
 
 (function(){
-  var secs=[].slice.call(document.querySelectorAll('.sec'));
+  // Contents bar: highlight the chapter being read and fill the progress line.
   var heads=[].slice.call(document.querySelectorAll('.chapter-head,#overview'));
-  var bar=document.querySelector('.toc-progress'), ctl=document.querySelector('.deck-ctl');
-  var prev=ctl.querySelector('[data-dir="-1"]'), next=ctl.querySelector('[data-dir="1"]');
-  var count=ctl.querySelector('.ctl-count'), name=ctl.querySelector('.ctl-name');
-  var start=document.getElementById('overview'), foot=document.querySelector('.cta');
-  var cur=-2;
-  function lbl(s){var e=s.querySelector('.section-label');return e?e.textContent.replace(/^Part \d+ · /,''):''}
+  var bar=document.querySelector('.toc-progress');
   function update(){
-    var mid=window.innerHeight*0.35, idx=-1, ch=null;
-    secs.forEach(function(s,i){if(s.getBoundingClientRect().top<=mid)idx=i});
+    var mid=window.innerHeight*0.35, ch=null;
     heads.forEach(function(h){if(h.getBoundingClientRect().top<=mid)ch=h.id});
-    var h=document.documentElement; bar.style.width=Math.min(100,Math.max(0,h.scrollTop/(h.scrollHeight-h.clientHeight)*100))+'%';
-    ctl.classList.toggle('on',start.getBoundingClientRect().top<mid && foot.getBoundingClientRect().top>window.innerHeight*0.5);
+    var h=document.documentElement; if(bar)bar.style.width=Math.min(100,Math.max(0,h.scrollTop/(h.scrollHeight-h.clientHeight)*100))+'%';
     document.querySelectorAll('.toc-bar a').forEach(function(a){var on=a.dataset.ch===ch;a.classList.toggle('active',on);if(on&&a._on!==true){var ul=a.closest('ul'),l=a.parentNode.offsetLeft,w=a.parentNode.offsetWidth;if(l<ul.scrollLeft||l+w>ul.scrollLeft+ul.clientWidth){ul.scrollLeft=Math.max(0,l-16)}}a._on=on});
-    if(idx===cur)return; cur=idx;
-    var s=secs[Math.max(idx,0)];
-    count.textContent=(Math.max(idx,0)+1)+' / '+secs.length; name.textContent=lbl(s);
-    prev.disabled=idx<=0; next.disabled=idx>=secs.length-1;
   }
-  function go(d){var t=secs[Math.min(secs.length-1,Math.max(0,cur+d))];if(t)t.scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth',block:'start'})}
-  prev.addEventListener('click',function(){go(-1)}); next.addEventListener('click',function(){go(1)});
-  document.addEventListener('keydown',function(e){if(e.target.closest('input,textarea,select,[contenteditable]'))return;if(e.key==='ArrowRight'){go(1);e.preventDefault()}else if(e.key==='ArrowLeft'){go(-1);e.preventDefault()}});
   var tk=false; window.addEventListener('scroll',function(){if(!tk){requestAnimationFrame(function(){update();tk=false});tk=true}},{passive:true});
   window.addEventListener('resize',update); update();
 })();
