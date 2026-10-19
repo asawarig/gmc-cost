@@ -1738,6 +1738,25 @@ body:has(.navbar.nav--scrolled):not(.at-footer) .sales-rail.is-fade { opacity: .
   .page-body { max-width: min(1180px, calc(100vw - 300px)); margin-left: max(0px, calc((100vw - 1480px) / 2)); margin-right: auto; }
   .toc-bar { padding-left: calc(max(0px, (100vw - 1480px) / 2) + clamp(20px,5vw,64px) - 14px); }
 }
+/* Spend chart, option A: typical spend per company type, sorted, with the
+   middle-half range carried in the label. */
+.spend-chart .sc-rows { list-style: none; margin: 4px 0 0; padding: 0; display: grid; gap: 4px; }
+.sc-row { display: grid; grid-template-columns: minmax(0, 210px) minmax(0, 1fr) 190px; align-items: center; gap: 16px; padding: 8px 6px; border-radius: 6px; transition: background .15s ease; }
+.sc-row:hover { background: var(--cream-deep); }
+.sc-name { font-size: 15px; color: var(--fg-1); }
+.sc-track { position: relative; height: 18px; border-left: 1px solid var(--line-lav); }
+.sc-bar { position: absolute; left: 0; top: 2px; bottom: 2px; background: var(--plum-red); border-radius: 0 4px 4px 0; }
+.sc-all .sc-bar { background: var(--line-lav); }
+.sc-all .sc-name { color: var(--fg-2); }
+.sc-val { font-size: 14px; color: var(--fg-2); line-height: 1.35; font-variant-numeric: tabular-nums; }
+.sc-val strong { font-size: 17px; font-weight: 600; color: var(--fg-1); }
+.sc-range { display: block; font-size: 13px; color: var(--fg-muted); }
+.sc-note { font-size: 13px; color: var(--fg-muted); margin: 14px 0 0; max-width: none; }
+@media (max-width: 640px) {
+  .sc-row { grid-template-columns: minmax(0, 1fr) auto; gap: 6px 12px; padding: 10px 4px; }
+  .sc-track { grid-column: 1 / -1; grid-row: 2; }
+  .sc-val { text-align: right; }
+}
 </style>
 <link rel="stylesheet" href={`${base}/plum-chrome/chrome.css`}>
 </head>
@@ -1860,134 +1879,21 @@ body:has(.navbar.nav--scrolled):not(.at-footer) .sales-rail.is-fade { opacity: .
 <p class="answer-p">The ranges on this page are directional. A specific quote for your company will sit somewhere inside them once an insurer sees your employee data, and that number can move 20 to 40 percent either way based on the design choices discussed below.</p></div>
   </section>
 
-<div class="rule-section" aria-hidden="true"><span class="rule-arr-l"></span><span class="rule-line"></span><span class="rule-arr-r"></span></div><div class="chapter-head" id="chapter-1"><span class="ch-num" aria-hidden="true">01</span><div><div class="section-label">Chapter 1 of 6</div><p class="ch-title">What companies spend</p><p class="ch-desc">Real ranges from Plum customer data, by company type, and what the top quarter buys.</p><ul class="ch-links"><li><a href="#what-companies-spend">What companies spend</a></li><li><a href="#how-your-peers-compare">Startups, MNCs and size</a></li><li><a href="#what-the-top-quarter-does-differently">What top spenders cover</a></li></ul></div></div><section id="what-companies-spend" class="sec" aria-labelledby="what-companies-spend-h"><div class="section-label">Part 2 · What companies spend</div><h2 id="what-companies-spend-h">What do Indian companies actually spend on group health insurance?</h2><p class="section-intro"><strong>Half of companies spend between roughly ₹6,000 and ₹24,000 per employee per year.</strong> The picture shifts by company type — MNCs and funded startups spend more, small businesses track the overall spread. Pick a cohort below to see where it sits against the overall distribution.</p>
+<div class="rule-section" aria-hidden="true"><span class="rule-arr-l"></span><span class="rule-line"></span><span class="rule-arr-r"></span></div><div class="chapter-head" id="chapter-1"><span class="ch-num" aria-hidden="true">01</span><div><div class="section-label">Chapter 1 of 6</div><p class="ch-title">What companies spend</p><p class="ch-desc">Real ranges from Plum customer data, by company type, and what the top quarter buys.</p><ul class="ch-links"><li><a href="#what-companies-spend">What companies spend</a></li><li><a href="#how-your-peers-compare">Startups, MNCs and size</a></li><li><a href="#what-the-top-quarter-does-differently">What top spenders cover</a></li></ul></div></div><section id="what-companies-spend" class="sec" aria-labelledby="what-companies-spend-h"><div class="section-label">Part 2 · What companies spend</div><h2 id="what-companies-spend-h">What do Indian companies actually spend on group health insurance?</h2><p class="section-intro"><strong>Half of companies spend between roughly ₹6,000 and ₹24,000 per employee per year.</strong> The picture shifts by company type — MNCs and funded startups spend more, small businesses track the overall spread. The chart below compares a typical company of each type.</p>
 
 <figure class="spend-chart" id="how-your-peers-compare">
-  <figcaption>Group health insurance spend, premium per employee per year, by cohort</figcaption>
-  <div class="chips" role="group" aria-label="Choose a company type">
-    <button type="button" class="chip" data-cohort="all" aria-pressed="true">All companies</button>
-    <button type="button" class="chip" data-cohort="startup" aria-pressed="false">Funded startups</button>
-    <button type="button" class="chip" data-cohort="mnc" aria-pressed="false">MNCs</button>
-    <button type="button" class="chip" data-cohort="small" aria-pressed="false">Small (7–50)</button>
-    <button type="button" class="chip" data-cohort="growing" aria-pressed="false">Growing (51–200)</button>
-    <button type="button" class="chip" data-cohort="large" aria-pressed="false">Large (200+)</button>
-  </div>
-  <div class="spend-chart-plot">
-    <svg viewBox="0 0 820 340" preserveAspectRatio="xMinYMin meet" width="100%" aria-hidden="true">
-      <g id="sc-rows"></g>
-      <g id="sc-axis"></g>
-    </svg>
-  </div>
-  <p class="sc-insight" id="sc-insight"></p>
+  <figcaption>What a typical company spends on group health insurance, per employee a year</figcaption>
+  <ol class="sc-rows"><li class="sc-row"><span class="sc-name">MNCs</span><span class="sc-track" aria-hidden="true"><span class="sc-bar" style="width:86.7%"></span></span><span class="sc-val"><strong>₹26,000</strong> typical<span class="sc-range">most spend ₹12k–₹50k</span></span></li><li class="sc-row"><span class="sc-name">Funded startups</span><span class="sc-track" aria-hidden="true"><span class="sc-bar" style="width:56.7%"></span></span><span class="sc-val"><strong>₹17,000</strong> typical<span class="sc-range">most spend ₹7k–₹35k</span></span></li><li class="sc-row"><span class="sc-name">Large companies (200+)</span><span class="sc-track" aria-hidden="true"><span class="sc-bar" style="width:46.7%"></span></span><span class="sc-val"><strong>₹14,000</strong> typical<span class="sc-range">most spend ₹6k–₹30k</span></span></li><li class="sc-row"><span class="sc-name">Growing companies (51–200)</span><span class="sc-track" aria-hidden="true"><span class="sc-bar" style="width:40.0%"></span></span><span class="sc-val"><strong>₹12,000</strong> typical<span class="sc-range">most spend ₹6k–₹28k</span></span></li><li class="sc-row sc-all"><span class="sc-name">All companies</span><span class="sc-track" aria-hidden="true"><span class="sc-bar" style="width:33.3%"></span></span><span class="sc-val"><strong>₹10,000</strong> typical<span class="sc-range">most spend ₹6k–₹24k</span></span></li><li class="sc-row"><span class="sc-name">Small businesses (7–50)</span><span class="sc-track" aria-hidden="true"><span class="sc-bar" style="width:30.0%"></span></span><span class="sc-val"><strong>₹9,000</strong> typical<span class="sc-range">most spend ₹6k–₹22k</span></span></li></ol>
+  <p class="sc-note">"Typical" is the median company. "Most spend" is the middle half of companies, from the 25th to the 75th percentile. Plum customer data, FY26.</p>
+  <p class="sc-insight">MNCs spend the most: a typical MNC spends ₹26,000 per employee, more than twice the ₹10,000 typical across all companies.</p>
 </figure>
 
-<p class="start"><strong>Where to start.</strong> Divide your current GMC premium by your headcount, locate that number on the x-axis above, and read where it falls against your cohort and the overall picture.</p>
+<p class="start"><strong>Where to start.</strong> Divide your current GMC premium by your headcount and compare it with the typical figure and range for your company type above.</p>
 
-<div class="deep-accordion"><details open><summary><div class="acc-summary-inner"><div class="acc-summary-label">In full</div><div class="acc-summary-title">The spend picture, in detail</div><div class="acc-summary-sub">1 min read</div></div><span class="deep-acc-indicator" aria-hidden="true">+</span></summary><div class="deep-acc-body"><div class="callout callout-blue"><span aria-hidden="true" class="callout-icon">ℹ</span><div><strong>About this data:</strong> Figures come from the group health policies of 3,500+ companies insured through Plum in FY26. They show the base group medical cover (GMC) premium per employee per year, before life, accident or wellness benefits, grouped into five indicative spend ranges.</div></div><p>The most common range across all companies is ₹5,000–10,000, where about 3 in 10 companies sit. About 1 in 8 spend over ₹40,000, and more than 9 in 10 of those cover employees' parents.</p><p>Use these ranges as a starting check, not a target. Sitting in the lower quarter is not a problem in itself, and a lean policy can be the right call for a young team. The cohort switcher above shows how the picture shifts by company type.</p></div></details></div>
+<div class="deep-accordion"><details open><summary><div class="acc-summary-inner"><div class="acc-summary-label">In full</div><div class="acc-summary-title">The spend picture, in detail</div><div class="acc-summary-sub">1 min read</div></div><span class="deep-acc-indicator" aria-hidden="true">+</span></summary><div class="deep-acc-body"><div class="callout callout-blue"><span aria-hidden="true" class="callout-icon">ℹ</span><div><strong>About this data:</strong> Figures come from the group health policies of 3,500+ companies insured through Plum in FY26. They show the base group medical cover (GMC) premium per employee per year, before life, accident or wellness benefits, grouped into five indicative spend ranges.</div></div><p>The most common range across all companies is ₹5,000–10,000, where about 3 in 10 companies sit. About 1 in 8 spend over ₹40,000, and more than 9 in 10 of those cover employees' parents.</p><p>Use these ranges as a starting check, not a target. Sitting in the lower quarter is not a problem in itself, and a lean policy can be the right call for a young team. The chart above shows how the picture shifts by company type.</p></div></details></div>
 </section>
 
-<script is:inline id="spend-chart-js">
-(function(){
-  var D = {
-    all:     {label: 'All companies',          loQ: 6000,  median: 10000, hiQ: 24000, n: 3551},
-    startup: {label: 'Funded startups',        loQ: 7000,  median: 17000, hiQ: 35000, n:  587},
-    mnc:     {label: 'MNCs',                   loQ: 12000, median: 26000, hiQ: 50000, n:  497},
-    small:   {label: 'Small (7–50)',          loQ: 6000,  median:  9000, hiQ: 22000, n: 2678},
-    growing: {label: 'Growing (51–200)',      loQ: 6000,  median: 12000, hiQ: 28000, n:  664},
-    large:   {label: 'Large (200+)',           loQ: 6000,  median: 14000, hiQ: 30000, n:  209}
-  };
-  var INS = {
-    all:     'Half of companies spend between <strong>₹6,000 and ₹24,000</strong> per employee per year. The lines mark the 25th, 50th and 75th percentiles across 3,500+ companies.',
-    startup: 'Funded startups spend well above the overall picture. Their middle half runs from <strong>₹7,000 to ₹35,000</strong>, roughly ₹7k higher at both ends than the all-companies spread.',
-    mnc:     'MNCs are the highest-spending cohort. Their middle half starts at ₹12,000 and goes up to <strong>₹50,000+</strong>, with a median of ₹26,000 — more than twice the overall median.',
-    small:   'Small businesses sit a touch below the overall spread, with a tighter middle half from <strong>₹6,000 to ₹22,000</strong>.',
-    growing: 'Growing companies track the overall picture closely, with a slightly higher upper quartile of <strong>₹28,000</strong>.',
-    large:   'Large employers skew a little higher than the overall picture; their middle half runs from ₹6,000 to <strong>₹30,000</strong>, and a quarter spend above that.'
-  };
 
-  var W = 820, H = 340;
-  var padL = 24, padR = 28, padT = 56, padB = 56;
-  var plotW = W - padL - padR;
-  var plotH = H - padT - padB;
-
-  var X_MAX = 60000;
-  var X_TICKS = [0, 10000, 20000, 30000, 40000, 50000, 60000];
-  function x(v){ return padL + Math.min(v, X_MAX) / X_MAX * plotW; }
-  function fmtK(v){ return v >= 1000 ? '₹' + (v/1000) + 'k' : '₹' + v; }
-
-  function strip(cfg, y, height, fillCol, borderCol, isAll){
-    // range line (full span 0..X_MAX, muted)
-    var rangeY = y + height/2;
-    var g = '';
-    g += '<line x1="' + x(0) + '" y1="' + rangeY + '" x2="' + x(X_MAX) + '" y2="' + rangeY + '" stroke="rgba(58,14,43,0.15)" stroke-width="1"/>';
-    // middle-half filled block (Q1 to Q3)
-    var x1 = x(cfg.loQ), x2 = x(cfg.hiQ);
-    g += '<rect x="' + x1 + '" y="' + y + '" width="' + (x2 - x1) + '" height="' + height + '" fill="' + fillCol + '" stroke="' + borderCol + '" stroke-width="1"/>';
-    // Q1, median, Q3 ticks
-    var tickTop = y - 6, tickBot = y + height + 6;
-    g += '<line x1="' + x1 + '" y1="' + tickTop + '" x2="' + x1 + '" y2="' + tickBot + '" stroke="rgba(58,14,43,0.6)" stroke-width="1"/>';
-    g += '<line x1="' + x2 + '" y1="' + tickTop + '" x2="' + x2 + '" y2="' + tickBot + '" stroke="rgba(58,14,43,0.6)" stroke-width="1"/>';
-    var mx = x(cfg.median);
-    g += '<line x1="' + mx + '" y1="' + (tickTop - 4) + '" x2="' + mx + '" y2="' + (tickBot + 4) + '" stroke="' + (isAll ? 'rgba(58,14,43,0.75)' : '#B8202F') + '" stroke-width="' + (isAll ? 1.5 : 2.5) + '"' + (isAll ? ' stroke-dasharray="3 2"' : '') + '/>';
-    // value labels under the ticks
-    var belowY = tickBot + 20;
-    g += '<text x="' + x1 + '" y="' + belowY + '" font-family="Mulish, system-ui, sans-serif" font-size="11" text-anchor="middle" fill="rgba(58,14,43,0.72)">' + fmtK(cfg.loQ) + '</text>';
-    g += '<text x="' + mx + '" y="' + belowY + '" font-family="Mulish, system-ui, sans-serif" font-size="12" font-weight="700" text-anchor="middle" fill="' + (isAll ? 'rgba(58,14,43,0.9)' : '#B8202F') + '">' + fmtK(cfg.median) + '</text>';
-    g += '<text x="' + x2 + '" y="' + belowY + '" font-family="Mulish, system-ui, sans-serif" font-size="11" text-anchor="middle" fill="rgba(58,14,43,0.72)">' + fmtK(cfg.hiQ) + '</text>';
-    // name label on the far left above the strip
-    var labelY = y - 16;
-    g += '<text x="' + padL + '" y="' + labelY + '" font-family="Mulish, system-ui, sans-serif" font-size="10.5" font-weight="700" letter-spacing="0.5" fill="' + (isAll ? 'rgba(58,14,43,0.6)' : '#B8202F') + '">' + cfg.label.toUpperCase() + ' · N = ' + cfg.n.toLocaleString() + '</text>';
-    // quartile-label row above the strip (lower quarter / middle half / top quarter)
-    var qY = y - 2;
-    g += '<text x="' + ((x(0) + x1) / 2) + '" y="' + qY + '" font-family="Mulish, system-ui, sans-serif" font-size="10" text-anchor="middle" fill="rgba(58,14,43,0.5)">lower quarter</text>';
-    g += '<text x="' + ((x1 + x2) / 2) + '" y="' + qY + '" font-family="Mulish, system-ui, sans-serif" font-size="10" text-anchor="middle" fill="rgba(58,14,43,0.5)">middle half</text>';
-    g += '<text x="' + ((x2 + x(X_MAX)) / 2) + '" y="' + qY + '" font-family="Mulish, system-ui, sans-serif" font-size="10" text-anchor="middle" fill="rgba(58,14,43,0.5)">top quarter</text>';
-    return g;
-  }
-
-  function render(key){
-    var isAll = (key === 'all');
-    var g = document.getElementById('sc-rows');
-    var ax = document.getElementById('sc-axis');
-    var all = D.all;
-    var c = D[key];
-    var html = '';
-    if (isAll) {
-      html += strip(all, padT + 36, 28, 'rgba(58,14,43,0.18)', 'rgba(58,14,43,0.42)', true);
-    } else {
-      // picked cohort on top
-      html += strip(c,  padT + 10, 32, 'rgba(255,64,82,0.5)',  '#D9243A',             false);
-      // all companies for comparison below
-      html += strip(all, padT + 110, 24, 'rgba(58,14,43,0.14)', 'rgba(58,14,43,0.38)', true);
-    }
-    g.innerHTML = html;
-
-    // X-axis
-    var axY = H - padB + 14;
-    var axHtml = '';
-    axHtml += '<line x1="' + x(0) + '" y1="' + (H - padB) + '" x2="' + x(X_MAX) + '" y2="' + (H - padB) + '" stroke="rgba(58,14,43,0.3)" stroke-width="0.5"/>';
-    X_TICKS.forEach(function(t){
-      var xx = x(t);
-      axHtml += '<line x1="' + xx + '" y1="' + (H - padB) + '" x2="' + xx + '" y2="' + (H - padB + 5) + '" stroke="rgba(58,14,43,0.3)" stroke-width="0.5"/>';
-      axHtml += '<text x="' + xx + '" y="' + axY + '" font-family="Mulish, system-ui, sans-serif" font-size="11" text-anchor="middle" fill="rgba(58,14,43,0.6)">' + (t === 0 ? '₹0' : fmtK(t)) + '</text>';
-    });
-    // Mark the long-tail cap at the right
-    axHtml += '<text x="' + x(X_MAX) + '" y="' + (axY + 16) + '" font-family="Mulish, system-ui, sans-serif" font-size="10" text-anchor="end" font-style="italic" fill="rgba(58,14,43,0.5)">top quarter extends beyond ₹60k for MNCs and funded startups</text>';
-    ax.innerHTML = axHtml;
-
-    document.getElementById('sc-insight').innerHTML = INS[key];
-  }
-
-  var chips = document.querySelectorAll('.spend-chart .chip');
-  chips.forEach(function(b){
-    b.addEventListener('click', function(){
-      chips.forEach(function(x){ x.setAttribute('aria-pressed', x === b ? 'true' : 'false'); });
-      render(b.dataset.cohort);
-    });
-  });
-  render('all');
-})();
-</script>
 <div class="rule-section lav" aria-hidden="true"><span class="rule-arr-l"></span><span class="rule-line"></span><span class="rule-arr-r"></span></div>
 <section id="what-the-top-quarter-does-differently" class="sec" aria-labelledby="what-the-top-quarter-does-differently-h"><div class="section-label">Part 4 · Policy design</div><h2 id="what-the-top-quarter-does-differently-h">What do the highest-spending companies cover?</h2><p class="section-intro"><strong>The top quarter of companies spend over ₹24,000 per employee, and most of that comes down to policy design.</strong> More than 9 in 10 top-quarter companies cover parents, carry a sum insured of ₹7.5 lakh or more, or both.</p><figure class="cmp-card">
 <figcaption>Share of companies with each feature</figcaption>
